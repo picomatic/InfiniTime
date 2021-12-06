@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <memory>
 #include "displayapp/screens/Screen.h"
+#include "displayapp/screens/ScreenList.h"
 #include "components/datetime/DateTimeController.h"
 #include "components/battery/BatteryController.h"
 #include "components/ble/BleController.h"
@@ -70,6 +71,10 @@ namespace Pinetime {
         lv_style_t minute_line_style_trace;
         lv_style_t second_line_style;
 
+        lv_obj_t* bleIcon;
+        lv_obj_t* label_time_hour;
+        lv_obj_t* label_time_minute;
+        lv_obj_t* label_time_second;
         lv_obj_t* label_date_day;
         lv_obj_t* batteryIcon;
         lv_obj_t* notificationIcon;
