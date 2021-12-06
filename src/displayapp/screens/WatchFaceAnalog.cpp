@@ -1,5 +1,4 @@
 #include "displayapp/screens/WatchFaceAnalog.h"
-#include <cmath>
 #include <lvgl/lvgl.h>
 #include "displayapp/screens/BatteryIcon.h"
 #include "displayapp/screens/BleIcon.h"
@@ -65,24 +64,34 @@ WatchFaceAnalog::WatchFaceAnalog(Pinetime::Applications::DisplayApp* app,
   lv_obj_t* bg_clock_img = lv_img_create(lv_scr_act(), NULL);
   lv_img_set_src(bg_clock_img, &bg_clock);
   lv_obj_align(bg_clock_img, NULL, LV_ALIGN_CENTER, 0, 0);
+  
+  label_date_day = lv_label_create(lv_scr_act(), NULL);
+  lv_obj_set_style_local_text_color(label_date_day, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0xFFFFFF));
+  lv_label_set_text_fmt(label_date_day, "%s %02i", dateTimeController.DayOfWeekShortToString(), dateTimeController.Day());
+  lv_label_set_align(label_date_day, LV_LABEL_ALIGN_CENTER);
+  lv_obj_align(label_date_day, NULL, LV_ALIGN_CENTER, 50, 0);
 
   batteryIcon = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_text(batteryIcon, Symbols::batteryHalf);
-  lv_obj_align(batteryIcon, NULL, LV_ALIGN_IN_TOP_RIGHT, 0, 0);
+  lv_obj_align(batteryIcon, NULL, LV_ALIGN_IN_BOTTOM_LEFT, 0, 0);
   lv_obj_set_auto_realign(batteryIcon, true);
 
   notificationIcon = lv_label_create(lv_scr_act(), NULL);
-  lv_obj_set_style_local_text_color(notificationIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FF00));
+  lv_obj_set_style_local_text_color(notificationIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0xFF0000));
   lv_label_set_text(notificationIcon, NotificationIcon::GetIcon(false));
-  lv_obj_align(notificationIcon, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+  lv_obj_align(notificationIcon, NULL, LV_ALIGN_IN_BOTTOM_LEFT, 35, 0);
 
-  // Date - Day / Week day
+  label_time_hour = lv_label_create(lv_scr_act(), nullptr);
+  lv_obj_align(label_time_hour, lv_scr_act(), LV_ALIGN_IN_TOP_LEFT, 0, 0);
+  lv_obj_set_style_local_text_color(label_time_hour, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FF00));
 
-  label_date_day = lv_label_create(lv_scr_act(), NULL);
-  lv_obj_set_style_local_text_color(label_date_day, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0xf0a500));
-  lv_label_set_text_fmt(label_date_day, "%s\n%02i", dateTimeController.DayOfWeekShortToString(), dateTimeController.Day());
-  lv_label_set_align(label_date_day, LV_LABEL_ALIGN_CENTER);
-  lv_obj_align(label_date_day, NULL, LV_ALIGN_CENTER, 50, 0);
+  label_time_minute = lv_label_create(lv_scr_act(), nullptr);
+  lv_obj_align(label_time_minute, lv_scr_act(), LV_ALIGN_IN_TOP_RIGHT, 0, 0);
+  lv_obj_set_style_local_text_color(label_time_minute, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FF00));
+
+  label_time_second = lv_label_create(lv_scr_act(), nullptr);
+  lv_obj_align(label_time_second, lv_scr_act(), LV_ALIGN_IN_BOTTOM_RIGHT, 0, 0);
+  lv_obj_set_style_local_text_color(label_time_second, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FF00));
 
   minute_body = lv_line_create(lv_scr_act(), NULL);
   minute_body_trace = lv_line_create(lv_scr_act(), NULL);
@@ -120,6 +129,11 @@ WatchFaceAnalog::WatchFaceAnalog(Pinetime::Applications::DisplayApp* app,
   lv_style_set_line_rounded(&hour_line_style_trace, LV_STATE_DEFAULT, false);
   lv_obj_add_style(hour_body_trace, LV_LINE_PART_MAIN, &hour_line_style_trace);
 
+  bleIcon = lv_label_create(lv_scr_act(), nullptr);
+  lv_obj_set_style_local_text_color(bleIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x0000FF));
+  lv_label_set_text(bleIcon, Symbols::bluetooth);
+  lv_obj_align(bleIcon, NULL, LV_ALIGN_CENTER, 0, 0);
+
   taskRefresh = lv_task_create(RefreshTaskCallback, LV_DISP_DEF_REFR_PERIOD, LV_TASK_PRIO_MID, this);
   UpdateClock();
 }
@@ -137,9 +151,18 @@ WatchFaceAnalog::~WatchFaceAnalog() {
 }
 
 void WatchFaceAnalog::UpdateClock() {
+<<<<<<< HEAD
   uint8_t hour = dateTimeController.Hours();
   uint8_t minute = dateTimeController.Minutes();
   uint8_t second = dateTimeController.Seconds();
+=======
+  hour = dateTimeController.Hours();
+  minute = dateTimeController.Minutes();
+  second = dateTimeController.Seconds();
+  char hoursChar[3];
+  char minutesChar[3];
+  char secondsChar[3];
+>>>>>>> Add eos watch face
 
   if (sMinute != minute) {
     auto const angle = minute * 6;
@@ -175,6 +198,16 @@ void WatchFaceAnalog::UpdateClock() {
     second_point[0] = CoordinateRelocate(-20, angle);
     second_point[1] = CoordinateRelocate(SecondLength, angle);
     lv_line_set_points(second_body, second_point, 2);
+    //sprintf(hoursChar,"%02X", static_cast<int>(hour));
+    //sprintf(minutesChar,"%02X", static_cast<int>(minute));
+    sprintf(hoursChar,"%02X", static_cast<int>(hour));
+    lv_label_set_text_fmt(label_time_hour, "0X%s", hoursChar);
+
+    sprintf(minutesChar,"%02X", static_cast<int>(minute));
+    lv_label_set_text_fmt(label_time_minute, "0X%s", minutesChar);
+
+    sprintf(secondsChar,"%02X", static_cast<int>(second));
+    lv_label_set_text_fmt(label_time_second, "0X%s", secondsChar);
   }
 }
 
@@ -221,7 +254,7 @@ void WatchFaceAnalog::Refresh() {
     UpdateClock();
 
     if ((month != currentMonth) || (dayOfWeek != currentDayOfWeek) || (day != currentDay)) {
-      lv_label_set_text_fmt(label_date_day, "%s\n%02i", dateTimeController.DayOfWeekShortToString(), day);
+      lv_label_set_text_fmt(label_date_day, "%s %02i", dateTimeController.DayOfWeekShortToString(), day);
 
       currentMonth = month;
       currentDayOfWeek = dayOfWeek;
