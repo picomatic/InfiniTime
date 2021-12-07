@@ -56,6 +56,25 @@ SettingTimeFormat::SettingTimeFormat(Pinetime::Applications::DisplayApp* app, Pi
   if (settingsController.GetClockType() == Controllers::Settings::ClockType::H24) {
     lv_checkbox_set_checked(cbOption[optionsTotal], true);
   }
+
+  optionsTotal++;
+  cbOption[optionsTotal] = lv_checkbox_create(container1, nullptr);
+  lv_checkbox_set_text_static(cbOption[optionsTotal], " 12-hour-0X");
+  cbOption[optionsTotal]->user_data = this;
+  lv_obj_set_event_cb(cbOption[optionsTotal], event_handler);
+  if (settingsController.GetClockType() == Controllers::Settings::ClockType::H120X) {
+    lv_checkbox_set_checked(cbOption[optionsTotal], true);
+  }
+
+  optionsTotal++;
+  cbOption[optionsTotal] = lv_checkbox_create(container1, nullptr);
+  lv_checkbox_set_text_static(cbOption[optionsTotal], " 24-hour-0X");
+  cbOption[optionsTotal]->user_data = this;
+  lv_obj_set_event_cb(cbOption[optionsTotal], event_handler);
+  if (settingsController.GetClockType() == Controllers::Settings::ClockType::H240X) {
+    lv_checkbox_set_checked(cbOption[optionsTotal], true);
+  }
+
   optionsTotal++;
 }
 
@@ -76,6 +95,13 @@ void SettingTimeFormat::UpdateSelected(lv_obj_t* object, lv_event_t event) {
         if (i == 1) {
           settingsController.SetClockType(Controllers::Settings::ClockType::H24);
         };
+        if (i == 2) {
+          settingsController.SetClockType(Controllers::Settings::ClockType::H120X);
+        };
+        if (i == 3) {
+          settingsController.SetClockType(Controllers::Settings::ClockType::H240X);
+        };
+
 
       } else {
         lv_checkbox_set_checked(cbOption[i], false);
