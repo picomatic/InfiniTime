@@ -1,3 +1,7 @@
+## Why this fork
+- Create an "eOS" watchface
+- Display time in hex for hex fans ;) (decimal display also posible)
+![img](images/eoswatch.jpg)
 ## New to InfiniTime?
  - [Updating the software](doc/gettingStarted/updating-software.md)
 
