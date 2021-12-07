@@ -1,18 +1,9 @@
-# [InfiniTime](https://github.com/InfiniTimeOrg/InfiniTime)
-
-[![Build PineTime Firmware](https://github.com/InfiniTimeOrg/InfiniTime/workflows/Build%20PineTime%20Firmware/badge.svg?branch=master)](https://github.com/InfiniTimeOrg/InfiniTime/actions)
-
-![InfiniTime logo](images/infinitime-logo-small.jpg "InfiniTime Logo")
-
-Fast open-source firmware for the [PineTime smartwatch](https://www.pine64.org/pinetime/) with many features, written in modern C++.
-
 ## New to InfiniTime?
-
- - [Getting started with InfiniTime](doc/gettingStarted/gettingStarted-1.0.md)
  - [Updating the software](doc/gettingStarted/updating-software.md)
- - [About the firmware and bootloader](doc/gettingStarted/about-software.md)
+
 ### Companion apps
  - [Gadgetbridge](https://gadgetbridge.org/) (Android)
+<<<<<<< HEAD
  - [AmazFish](https://openrepos.net/content/piggz/amazfish/) (SailfishOS)
  - [Siglo](https://github.com/alexr4535/siglo) (Linux)
  - [InfiniLink](https://github.com/xan-m/InfiniLink) **[Experimental]** (iOS)
@@ -54,6 +45,8 @@ Or use it to develop new Watchfaces, new Screens, or quickly iterate on the user
 ### Architecture and technical topics
 
  - [Memory analysis](./doc/MemoryAnalysis.md)
+=======
+>>>>>>> Update README.md
 
 ## Licenses
 
