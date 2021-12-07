@@ -1,54 +1,8 @@
-# [InfiniTime](https://github.com/InfiniTimeOrg/InfiniTime)
-
-[![Build PineTime Firmware](https://github.com/InfiniTimeOrg/InfiniTime/workflows/Build%20PineTime%20Firmware/badge.svg?branch=master)](https://github.com/InfiniTimeOrg/InfiniTime/actions)
-
-![InfiniTime logo](images/infinitime-logo-small.jpg "InfiniTime Logo")
-
-Fast open-source firmware for the [PineTime smartwatch](https://www.pine64.org/pinetime/) with many features, written in modern C++.
-
 ## New to InfiniTime?
-
- - [Getting started with InfiniTime](doc/gettingStarted/gettingStarted-1.0.md)
  - [Updating the software](doc/gettingStarted/updating-software.md)
- - [About the firmware and bootloader](doc/gettingStarted/about-software.md)
+
 ### Companion apps
  - [Gadgetbridge](https://gadgetbridge.org/) (Android)
- - [AmazFish](https://openrepos.net/content/piggz/amazfish/) (SailfishOS)
- - [Siglo](https://github.com/alexr4535/siglo) (Linux)
- - [InfiniLink](https://github.com/xan-m/InfiniLink) **[Experimental]** (iOS)
-
-## Development
-
- - [Rough structure of the code](doc/code/Intro.md)
- - [How to implement an application](doc/code/Apps.md)
- - [Generate the fonts and symbols](src/displayapp/fonts/README.md)
- - [Creating a stopwatch in Pinetime(article)](https://pankajraghav.com/2021/04/03/PINETIME-STOPCLOCK.html)
- - [Tips on designing an app UI](doc/ui_guidelines.md)
-
-### Contributing
- - [How to contribute?](/doc/contribute.md)
- - [Coding conventions](/doc/coding-convention.md)
-
-### Build, flash and debug
-
- - [Project branches](doc/branches.md)
- - [Versioning](doc/versioning.md)
- - [Files included in the release notes](doc/filesInReleaseNotes.md)
- - [Build the project](doc/buildAndProgram.md)
- - [Flash the firmware using OpenOCD and STLinkV2](doc/openOCD.md)
- - [Flash the firmware using SWD interface](doc/SWD.md)
- - [Build the project with Docker](doc/buildWithDocker.md)
- - [Build the project with VSCode](doc/buildWithVScode.md)
- - [Bootloader, OTA and DFU](./bootloader/README.md)
- - [Stub using NRF52-DK](./doc/PinetimeStubWithNrf52DK.md)
-
-### API
-
- - [BLE implementation and API](./doc/ble.md)
-
-### Architecture and technical topics
-
- - [Memory analysis](./doc/MemoryAnalysis.md)
 
 ## Licenses
 
