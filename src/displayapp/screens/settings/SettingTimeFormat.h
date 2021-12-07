@@ -20,7 +20,7 @@ namespace Pinetime {
         void UpdateSelected(lv_obj_t* object, lv_event_t event);
 
       private:
-        static constexpr std::array<const char*, 2> options = {" 12-hour", " 24-hour"};
+        static constexpr std::array<const char*, 4> options = {" 12-hour", " 24-hour", " 12-hour-0X", " 24-hour-0X"};
         Controllers::Settings& settingsController;
         lv_obj_t* cbOption[options.size()];
       };

@@ -5,6 +5,7 @@
 #include "displayapp/screens/Symbols.h"
 #include "displayapp/screens/NotificationIcon.h"
 #include "components/settings/Settings.h"
+#include "components/motion/MotionController.h"
 
 LV_IMG_DECLARE(bg_clock);
 
@@ -48,14 +49,22 @@ WatchFaceAnalog::WatchFaceAnalog(Pinetime::Applications::DisplayApp* app,
                                  Controllers::Battery& batteryController,
                                  Controllers::Ble& bleController,
                                  Controllers::NotificationManager& notificationManager,
-                                 Controllers::Settings& settingsController)
+                                 Controllers::Settings& settingsController,
+                                 Controllers::MotionController& motionController)
   : Screen(app),
     currentDateTime {{}},
     dateTimeController {dateTimeController},
     batteryController {batteryController},
     bleController {bleController},
     notificationManager {notificationManager},
+<<<<<<< HEAD
     settingsController {settingsController} {
+=======
+    settingsController {settingsController},
+    motionController {motionController} {
+    
+  settingsController.SetClockFace(1);
+>>>>>>> Add step counter, configure time format(dec or hex)
 
   sHour = 99;
   sMinute = 99;
@@ -92,6 +101,16 @@ WatchFaceAnalog::WatchFaceAnalog(Pinetime::Applications::DisplayApp* app,
   label_time_second = lv_label_create(lv_scr_act(), nullptr);
   lv_obj_align(label_time_second, lv_scr_act(), LV_ALIGN_IN_BOTTOM_RIGHT, 0, 0);
   lv_obj_set_style_local_text_color(label_time_second, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FF00));
+
+  stepValue = lv_label_create(lv_scr_act(), nullptr);
+  lv_obj_set_style_local_text_color(stepValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FFE7));
+  lv_label_set_text(stepValue, "0");
+  lv_obj_align(stepValue, lv_scr_act(), LV_ALIGN_CENTER, 0, 30);
+
+  stepIcon = lv_label_create(lv_scr_act(), nullptr);
+  lv_obj_set_style_local_text_color(stepIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(0x00FFE7));
+  lv_label_set_text(stepIcon, Symbols::shoe);
+  lv_obj_align(stepIcon, stepValue, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
 
   minute_body = lv_line_create(lv_scr_act(), NULL);
   minute_body_trace = lv_line_create(lv_scr_act(), NULL);
@@ -200,16 +219,60 @@ void WatchFaceAnalog::UpdateClock() {
     lv_line_set_points(second_body, second_point, 2);
     //sprintf(hoursChar,"%02X", static_cast<int>(hour));
     //sprintf(minutesChar,"%02X", static_cast<int>(minute));
-    sprintf(hoursChar,"%02X", static_cast<int>(hour));
-    lv_label_set_text_fmt(label_time_hour, "0X%s", hoursChar);
+    if (settingsController.GetClockType() == Controllers::Settings::ClockType::H240X)
+    {
+     sprintf(hoursChar,"%02X", static_cast<int>(hour));
+     lv_label_set_text_fmt(label_time_hour, "0X%s", hoursChar);
 
-    sprintf(minutesChar,"%02X", static_cast<int>(minute));
-    lv_label_set_text_fmt(label_time_minute, "0X%s", minutesChar);
+     sprintf(minutesChar,"%02X", static_cast<int>(minute));
+     lv_label_set_text_fmt(label_time_minute, "0X%s", minutesChar);
 
-    sprintf(secondsChar,"%02X", static_cast<int>(second));
-    lv_label_set_text_fmt(label_time_second, "0X%s", secondsChar);
+     sprintf(secondsChar,"%02X", static_cast<int>(second));
+     lv_label_set_text_fmt(label_time_second, "0X%s", secondsChar);
+    } else if(settingsController.GetClockType() == Controllers::Settings::ClockType::H120X)
+    {
+     sprintf(hoursChar,"%02X", static_cast<int>(HourFormat12(hour)));
+     lv_label_set_text_fmt(label_time_hour, "0X%s", hoursChar);
+
+     sprintf(minutesChar,"%02X", static_cast<int>(minute));
+     lv_label_set_text_fmt(label_time_minute, "0X%s", minutesChar);
+
+     sprintf(secondsChar,"%02X", static_cast<int>(second));
+     lv_label_set_text_fmt(label_time_second, "0X%s", secondsChar);
+    } else if(settingsController.GetClockType() == Controllers::Settings::ClockType::H24)
+    {
+     sprintf(hoursChar,"%02d", static_cast<int>(hour));
+     lv_label_set_text_fmt(label_time_hour, "%s", hoursChar);
+
+     sprintf(minutesChar,"%02d", static_cast<int>(minute));
+     lv_label_set_text_fmt(label_time_minute, "%s", minutesChar);
+
+     sprintf(secondsChar,"%02d", static_cast<int>(second));
+     lv_label_set_text_fmt(label_time_second, "%s", secondsChar);
+    } else if(settingsController.GetClockType() == Controllers::Settings::ClockType::H12)
+    {
+     sprintf(hoursChar,"%02d", static_cast<int>(HourFormat12(hour)));
+     lv_label_set_text_fmt(label_time_hour, "%s", hoursChar);
+
+     sprintf(minutesChar,"%02d", static_cast<int>(minute));
+     lv_label_set_text_fmt(label_time_minute, "%s", minutesChar);
+
+     sprintf(secondsChar,"%02d", static_cast<int>(second));
+     lv_label_set_text_fmt(label_time_second, "%s", secondsChar);
+    }
   }
 }
+
+int WatchFaceAnalog::HourFormat12(int hour)
+{
+      if (hour == 0) {
+        hour = 12;
+      } else if (hour > 12) {
+        hour -= 12;
+      }
+      return hour;
+}
+
 
 void WatchFaceAnalog::SetBatteryIcon() {
   auto batteryPercent = batteryPercentRemaining.Get();
@@ -261,4 +324,11 @@ void WatchFaceAnalog::Refresh() {
       currentDay = day;
     }
   }
+
+  stepCount = motionController.NbSteps();
+  motionSensorOk = motionController.IsSensorOk();
+  if (stepCount.IsUpdated() || motionSensorOk.IsUpdated()) {
+    lv_label_set_text_fmt(stepValue, "%lu", stepCount.Get());
+  }
+
 }

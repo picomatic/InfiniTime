@@ -1,4 +1,4 @@
-/* https://lvgl.io/tools/imageconverter pinegit/images/eos.png */
+/* https://lvgl.io/tools/imageconverter images/eos.png */
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else

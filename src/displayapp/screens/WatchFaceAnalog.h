@@ -17,6 +17,7 @@ namespace Pinetime {
     class Battery;
     class Ble;
     class NotificationManager;
+    class MotionController;
   }
   namespace Applications {
     namespace Screens {
@@ -28,7 +29,8 @@ namespace Pinetime {
                         Controllers::Battery& batteryController,
                         Controllers::Ble& bleController,
                         Controllers::NotificationManager& notificationManager,
-                        Controllers::Settings& settingsController);
+                        Controllers::Settings& settingsController,
+                        Controllers::MotionController& motionController);
 
         ~WatchFaceAnalog() override;
 
@@ -45,6 +47,10 @@ namespace Pinetime {
         DirtyValue<bool> isCharging {};
         DirtyValue<std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>> currentDateTime;
         DirtyValue<bool> notificationState {false};
+        DirtyValue<uint32_t> stepCount {};
+        DirtyValue<bool> motionSensorOk {};
+
+
 
         lv_obj_t* hour_body;
         lv_obj_t* hour_body_trace;
@@ -71,15 +77,19 @@ namespace Pinetime {
         lv_obj_t* label_date_day;
         lv_obj_t* batteryIcon;
         lv_obj_t* notificationIcon;
+        lv_obj_t* stepIcon;
+        lv_obj_t* stepValue;
 
         const Controllers::DateTime& dateTimeController;
         Controllers::Battery& batteryController;
         Controllers::Ble& bleController;
         Controllers::NotificationManager& notificationManager;
         Controllers::Settings& settingsController;
+        Controllers::MotionController& motionController;
 
         void UpdateClock();
         void SetBatteryIcon();
+        int HourFormat12(int);
 
         lv_task_t* taskRefresh;
       };
