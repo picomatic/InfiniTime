@@ -14,7 +14,7 @@ namespace {
   }
 }
 
-constexpr std::array<const char*, 2> SettingTimeFormat::options;
+constexpr std::array<const char*, 4> SettingTimeFormat::options;
 
 SettingTimeFormat::SettingTimeFormat(Pinetime::Applications::DisplayApp* app, Pinetime::Controllers::Settings& settingsController)
   : Screen(app), settingsController {settingsController} {
@@ -54,6 +54,10 @@ SettingTimeFormat::SettingTimeFormat(Pinetime::Applications::DisplayApp* app, Pi
     lv_checkbox_set_checked(cbOption[0], true);
   } else if (settingsController.GetClockType() == Controllers::Settings::ClockType::H24) {
     lv_checkbox_set_checked(cbOption[1], true);
+  } else if (settingsController.GetClockType() == Controllers::Settings::ClockType::H120X) {
+    lv_checkbox_set_checked(cbOption[1], true);
+  } else if (settingsController.GetClockType() == Controllers::Settings::ClockType::H240X) {
+    lv_checkbox_set_checked(cbOption[1], true);
   }
 }
 
@@ -74,6 +78,13 @@ void SettingTimeFormat::UpdateSelected(lv_obj_t* object, lv_event_t event) {
         if (i == 1) {
           settingsController.SetClockType(Controllers::Settings::ClockType::H24);
         };
+        if (i == 2) {
+          settingsController.SetClockType(Controllers::Settings::ClockType::H120X);
+        };
+        if (i == 3) {
+          settingsController.SetClockType(Controllers::Settings::ClockType::H240X);
+        };
+
 
       } else {
         lv_checkbox_set_checked(cbOption[i], false);
