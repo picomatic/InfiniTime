@@ -76,6 +76,8 @@ void Notifications::Refresh() {
 }
 
 bool Notifications::OnTouchEvent(Pinetime::Applications::TouchEvents event) {
+  //stop ringing when screen is touched
+  Controllers::MotorController::StopRinging();
   if (mode != Modes::Normal) {
     return false;
   }
