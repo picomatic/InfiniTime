@@ -55,9 +55,9 @@ SettingTimeFormat::SettingTimeFormat(Pinetime::Applications::DisplayApp* app, Pi
   } else if (settingsController.GetClockType() == Controllers::Settings::ClockType::H24) {
     lv_checkbox_set_checked(cbOption[1], true);
   } else if (settingsController.GetClockType() == Controllers::Settings::ClockType::H120X) {
-    lv_checkbox_set_checked(cbOption[1], true);
+    lv_checkbox_set_checked(cbOption[2], true);
   } else if (settingsController.GetClockType() == Controllers::Settings::ClockType::H240X) {
-    lv_checkbox_set_checked(cbOption[1], true);
+    lv_checkbox_set_checked(cbOption[3], true);
   }
 }
 
