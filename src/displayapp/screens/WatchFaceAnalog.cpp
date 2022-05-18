@@ -57,14 +57,10 @@ WatchFaceAnalog::WatchFaceAnalog(Pinetime::Applications::DisplayApp* app,
     batteryController {batteryController},
     bleController {bleController},
     notificationManager {notificationManager},
-<<<<<<< HEAD
-    settingsController {settingsController} {
-=======
     settingsController {settingsController},
     motionController {motionController} {
     
   settingsController.SetClockFace(1);
->>>>>>> Add step counter, configure time format(dec or hex)
 
   sHour = 99;
   sMinute = 99;
@@ -170,18 +166,12 @@ WatchFaceAnalog::~WatchFaceAnalog() {
 }
 
 void WatchFaceAnalog::UpdateClock() {
-<<<<<<< HEAD
-  uint8_t hour = dateTimeController.Hours();
-  uint8_t minute = dateTimeController.Minutes();
-  uint8_t second = dateTimeController.Seconds();
-=======
   hour = dateTimeController.Hours();
   minute = dateTimeController.Minutes();
   second = dateTimeController.Seconds();
   char hoursChar[3];
   char minutesChar[3];
   char secondsChar[3];
->>>>>>> Add eos watch face
 
   if (sMinute != minute) {
     auto const angle = minute * 6;

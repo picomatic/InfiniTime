@@ -90,7 +90,9 @@ namespace Pinetime {
         void UpdateClock();
         void SetBatteryIcon();
         int HourFormat12(int);
-
+        int hour;
+        int minute;
+        int second;
         lv_task_t* taskRefresh;
       };
     }
